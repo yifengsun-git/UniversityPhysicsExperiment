@@ -1,0 +1,165 @@
+%% 单线圈距离中心轴的距离
+x1=[-70 -60 -50 -40 -30 -20 -10 0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180];
+% 测量值B (单位：mT ×10^-2)
+b1=[5.73 6.55 7.37 8.16 8.87 9.42 9.80 9.92 9.77 9.36 8.78 8.05 7.29 6.47 5.65 4.94 4.30 3.74 3.22 2.81 2.46 2.14 1.84 1.64 1.40 1.26];
+% 计算值B (单位：mT ×10^-2)
+b11=[5.51 6.27 7.05 7.81 8.51 9.08 9.45 9.57 9.45 9.08 8.51 7.81 7.05 6.27 5.51 4.82 4.19 3.64 3.15 2.73 2.38 2.07 1.81 1.58 1.39 1.22];
+
+% 插值生成光滑曲线
+x_fit = linspace(min(x1), max(x1), 500);
+b1_fit = interp1(x1, b1, x_fit, 'pchip');
+b11_fit = interp1(x1, b11, x_fit, 'pchip');
+
+% 绘图
+figure;
+set(gcf,'Color','w');
+
+% 绘制 B 测量值：光滑曲线 + 数据点
+plot(x_fit, b1_fit, 'r-', 'LineWidth', 2);
+hold on;
+plot(x1, b1, 'ro', 'MarkerSize', 6, 'MarkerFaceColor', 'r');
+
+% 绘制 B 计算值：光滑曲线 + 数据点
+plot(x_fit, b11_fit, 'b-', 'LineWidth', 2);
+plot(x1, b11, 'bo', 'MarkerSize', 6, 'MarkerFaceColor', 'b');
+
+% 中心参考线 x=0
+xline(0, 'k--', 'LineWidth', 1.5);
+
+% 图例
+legend('B 测量值 (mT×10^{-2})','测量数据点','B 计算值 (mT×10^{-2})','计算数据点','中心轴线','Location','best');
+
+% 标题 + 坐标轴（带单位）
+title('单线圈磁场分布','FontSize',14,'FontWeight','bold');
+xlabel('距离中心轴的距离 / mm','FontSize',12);
+ylabel('磁感应强度 B / (mT \times 10^{-2})','FontSize',12);
+
+grid on;
+hold off;
+
+
+%% 测量亥姆霍兹线圈轴线上的磁场分布
+x2=[-120 -110 -100 -90 -80 -70 -60 -50 -40 -30 -20 -10 0 10 20 30 40 50 60 70 80 90 100 110 120];
+b2=[0.73 0.83 0.94 1.04 1.14 1.23 1.30 1.35 1.38 1.40 1.41 1.41 1.41 1.41 1.41 1.40 1.38 1.35 1.29 1.21 1.13 1.03 0.93 0.82 0.73];
+
+% 插值生成光滑曲线
+x_fit = linspace(min(x2), max(x2), 500);
+b2_fit = interp1(x2, b2, x_fit, 'pchip');
+
+% 绘图
+figure;
+set(gcf,'Color','w');
+
+% 绘制亥姆霍兹线圈磁场：光滑曲线 + 数据点
+plot(x_fit, b2_fit, 'm-', 'LineWidth', 2);  % 紫红色曲线
+hold on;
+plot(x2, b2, 'mo', 'MarkerSize', 6, 'MarkerFaceColor', 'm');
+
+% 中心参考线 x=0
+xline(0, 'k--', 'LineWidth', 1.5);
+
+% 图例
+legend('B 测量值 (mT×10^{-1})','测量数据点','中心轴线','Location','best');
+
+% 标题 + 坐标轴（带单位）
+title('亥姆霍兹线圈轴线上的磁场分布','FontSize',14,'FontWeight','bold');
+xlabel('距离中心轴的距离 / mm','FontSize',12);
+ylabel('磁感应强度 B / (mT \times 10^{-1})','FontSize',12);
+
+grid on;
+hold off;
+
+%% 测量亥姆霍兹线圈径向上的磁场分布
+x3 = [-50 -40 -30 -20 -10 0 10 20 30];
+b3 = [1.37 1.39 1.40 1.41 1.41 1.41 1.41 1.40 1.39];
+
+% 插值生成光滑曲线
+x_fit = linspace(min(x3), max(x3), 500);
+b3_fit = interp1(x3, b3, x_fit, 'pchip');
+
+% 绘图
+figure;
+set(gcf,'Color','w');
+hold on;
+
+% 画光滑曲线 + 数据点
+plot(x_fit, b3_fit, 'm-', 'LineWidth', 2);
+plot(x3, b3, 'mo', 'MarkerSize', 6, 'MarkerFaceColor', 'm');
+
+% 中心参考线
+xline(0, 'k--', 'LineWidth', 1.5);
+
+% 图例、标题、坐标轴
+legend('B 测量值 (mT×10^{-1})','测量数据点','中心轴线','Location','best');
+title('亥姆霍兹线圈径向上的磁场分布','FontSize',14,'FontWeight','bold');
+xlabel('距离中心轴的距离 / mm','FontSize',12);
+ylabel('磁感应强度 B / (mT \times 10^{-1})','FontSize',12);
+
+grid on;
+hold off;
+
+%% 验证E与cosx成正比
+x4 = [0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 260 270 280 290 300 310 320 330 340 350 360];
+u1 = [4.82 4.74 4.53 4.17 3.72 3.08 2.46 1.65 0.84 0.02 0.77 1.56 2.37 3.06 3.66 4.16 4.50 4.71 4.79 4.71 4.48 4.11 3.64 3.02 2.27 1.45 0.74 0.06 0.88 1.72 2.49 3.13 3.69 4.17 4.53 4.75 4.82];
+u2 = [4.82 4.75 4.53 4.69 3.69 3.10 2.41 1.65 0.84 0.00 0.84 1.65 2.41 3.10 3.69 4.17 4.53 4.75 4.82 4.75 4.53 4.17 3.69 3.10 2.41 1.65 0.84 0.00 0.84 1.65 2.46 3.10 3.69 4.17 4.53 4.75 4.82];
+
+% 插值生成光滑曲线
+x_fit = linspace(min(x4), max(x4), 500);
+u1_fit = interp1(x4, u1, x_fit, 'pchip');
+u2_fit = interp1(x4, u2, x_fit, 'pchip');
+
+% 绘图
+figure;
+set(gcf,'Color','w');
+
+% 绘制 u1：蓝色光滑曲线 + 实心数据点
+plot(x_fit, u1_fit, 'b-', 'LineWidth', 2);
+hold on;
+plot(x4, u1, 'bo', 'MarkerSize', 5, 'MarkerFaceColor','b');
+
+% 绘制 u2：红色光滑曲线 + 实心数据点
+plot(x_fit, u2_fit, 'r-', 'LineWidth', 2);
+plot(x4, u2, 'ro', 'MarkerSize', 5, 'MarkerFaceColor','r');
+
+% 中心参考线
+xline(0, 'k--','LineWidth',1.5);
+
+% 图例
+legend('u1 曲线','u1 数据点','u2 曲线','u2 数据点','中心轴线','Location','best');
+
+% 标题 + 坐标轴
+title('验证E与 cosx成正比','FontSize',14,'FontWeight','bold');
+xlabel('x / 角度°','FontSize',12);
+ylabel('电压值 u/mV','FontSize',12);
+
+grid on;
+hold off;
+
+%% 探究励磁电流频率改变对磁场强度的影响
+f = [20 30 40 50 60 70 80 90 100 110 120];          % 频率 Hz
+b = [2.78 4.24 5.65 7.05 8.43 9.86 11.27 12.67 14.07 15.51 16.94]; % 磁感应强度 mT×10^-2
+
+% 插值生成光滑曲线
+f_fit = linspace(min(f), max(f), 500);
+b_fit = interp1(f, b, f_fit, 'pchip');
+
+% 绘图
+figure;
+set(gcf,'Color','w');
+
+% 绘制曲线 + 数据点
+plot(f_fit, b_fit, 'b-', 'LineWidth', 2);
+hold on;
+plot(f, b, 'bo', 'MarkerSize', 6, 'MarkerFaceColor','b');
+
+% 图例
+legend('B-f 关系曲线','实验数据点','Location','best');
+
+% 标题 + 坐标轴（带正确单位）
+title('励磁电流频率对磁场强度的影响','FontSize',14,'FontWeight','bold');
+xlabel('励磁电流频率 f / Hz','FontSize',12);
+ylabel('磁感应强度 B / (mT \times 10^{-2})','FontSize',12);
+
+grid on;
+hold off;
+
