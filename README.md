@@ -1,2 +1,3 @@
 # UniversityPhysicsExperiment
 whu大学物理实验计算代码
+注意不要把数据改错了
